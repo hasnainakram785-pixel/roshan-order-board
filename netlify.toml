@@ -1,0 +1,15 @@
+# Netlify: no build step. The board is plain HTML/CSS/JS in the "frontend" folder.
+[build]
+  publish = "frontend"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
+
+# config.js holds the API address, so never serve a stale copy of it
+[[headers]]
+  for = "/config.js"
+  [headers.values]
+    Cache-Control = "no-cache"

@@ -166,3 +166,65 @@ curl -X PATCH http://127.0.0.1:8000/api/orders/1 \
 | Controller (index, show, update) | `app/Http/Controllers/Api/OrderController.php` |
 | Status validation | `app/Http/Requests/UpdateOrderStatusRequest.php` |
 | Force JSON responses | `app/Http/Middleware/ForceJsonResponse.php` |
+
+## Live Board and Deployment (Task 3)
+
+A plain HTML/CSS/JS page (`frontend/`) that polls `GET /api/orders` **every 10 seconds** and shows the loan applications in a colour-coded table. Staff can change a status from the dropdown on each row.
+
+| Status | Colour |
+|--------|--------|
+| pending | amber |
+| under_review | blue |
+| approved | green |
+| disbursed | teal |
+| rejected | red |
+
+**Live URLs:** board = `https://YOUR-SITE.netlify.app` , API = `https://YOUR-API-HOST/api/orders` *(replace with your real URLs)*
+
+### Run it locally
+
+```bash
+# terminal 1 - the API
+php artisan migrate:fresh --seed
+php artisan serve                       # http://127.0.0.1:8000
+
+# terminal 2 - the board
+python -m http.server 5500 --directory frontend    # open http://127.0.0.1:5500
+```
+
+The API address is set in `frontend/config.js` (`API_BASE_URL`, default `http://127.0.0.1:8000/api`). Tests for the polling logic: `node tests-js/app.test.js`.
+
+### Deploy step by step
+
+**Step 0 - pick a host that allows API calls.** The brief suggests InfinityFree. InfinityFree puts a JavaScript/cookie check in front of every free site, which blocks API requests that come from another website (such as Netlify) and returns an HTML page instead of JSON. Before building anything, test the host: after Part A run `curl -i https://YOUR-API-HOST/api/orders`. If you get JSON, continue. If you get an HTML page mentioning JavaScript, use another free PHP host with MySQL (the brief allows "or similar"), or keep the board and API on the same InfinityFree domain (see Part D).
+
+**Part A - deploy the Laravel API (shared PHP hosting, no SSH)**
+1. Create a free hosting account and a site (note its URL, use `https`).
+2. In the control panel create a MySQL database; note the host, database name, user and password.
+3. In phpMyAdmin open that database and **Import** `deploy/schema.sql` (creates the `orders` table and 5 sample rows; shared hosting cannot run `php artisan migrate`).
+4. On your computer, in the Laravel folder, run `bash deploy/build_for_shared_hosting.sh`. It creates `deploy-build/htdocs/`.
+5. Open `deploy-build/htdocs/laravel/.env` and fill `APP_URL`, the `DB_*` values and `CORS_ALLOWED_ORIGINS` (your Netlify address).
+6. Upload the **contents** of `deploy-build/htdocs/` to the host's `htdocs` folder with FTP (for example FileZilla). Make `laravel/storage` and `laravel/bootstrap/cache` writable (permission 755 or 775).
+7. Check `https://YOUR-API-HOST/api/orders`: it must show JSON.
+
+**Part B - deploy the board to Netlify**
+1. Edit `frontend/config.js` and set `API_BASE_URL` to `https://YOUR-API-HOST/api`; commit and push.
+2. In Netlify choose **Add new site > Import an existing project**, pick this GitHub repo. Leave the build command empty and set the publish directory to `frontend` (`netlify.toml` already says this). Or drag the `frontend` folder onto Netlify Drop.
+3. Open the Netlify address. The table should fill and refresh every 10 seconds.
+
+**Part C - connect them.** Put the exact Netlify address in `CORS_ALLOWED_ORIGINS` in the server's `laravel/.env` (no trailing slash). Netlify is `https`, so the API must be `https` too, otherwise the browser blocks the calls.
+
+**Part D - if the host blocks cross-site calls.** The build script also puts a copy of the board in `htdocs/board/` that talks to the API on the same domain. It works even when a host blocks cross-site requests: open `https://YOUR-API-HOST/board/`.
+
+### Known limitations
+- No login: anyone with the link can change a status. Authentication is the natural next step.
+- Free hosts are slow to wake and have limits; the board shows "Offline - showing last data" and retries when the API does not answer.
+
+### Where the code is
+| What | Path |
+|------|------|
+| Board page, styles, polling | `frontend/index.html`, `frontend/style.css`, `frontend/app.js` |
+| API address | `frontend/config.js` |
+| Netlify settings | `netlify.toml` |
+| CORS for the API | `config/cors.php` |
+| Shared-hosting build, DB import, env template | `deploy/` |

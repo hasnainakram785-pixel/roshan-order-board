@@ -1,0 +1,9 @@
+$kind: http-request
+description: Expect 200 and only pending orders.
+url: "{{baseUrl}}/api/orders?status=pending"
+method: GET
+headers:
+  Accept: application/json
+queryParams:
+  status: pending
+order: 2000

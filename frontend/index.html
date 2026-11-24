@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loan Application Status Board - Roshan Microfinance</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <p class="kicker">Roshan Microfinance</p>
+      <h1>Loan Application Status Board</h1>
+    </div>
+    <div class="live">
+      <span id="dot" class="dot dot-wait" aria-hidden="true"></span>
+      <span id="liveText">Connecting...</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="summary" id="summary" aria-label="Totals by status"></section>
+
+    <div class="bar">
+      <div class="meta">
+        <span id="updated">Last updated: -</span>
+        <span id="countdown"></span>
+      </div>
+      <button id="refreshBtn" type="button">Refresh now</button>
+    </div>
+
+    <div id="banner" class="banner" role="alert" hidden></div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th class="num">Amount (PKR)</th>
+            <th>Status</th>
+            <th>Last change</th>
+            <th>Update status</th>
+          </tr>
+        </thead>
+        <tbody id="rows">
+          <tr><td colspan="6" class="empty">Loading applications...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

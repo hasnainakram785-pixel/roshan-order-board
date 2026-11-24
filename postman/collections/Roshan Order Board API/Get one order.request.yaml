@@ -1,0 +1,7 @@
+$kind: http-request
+description: Expect 200 and one JSON object.
+url: "{{baseUrl}}/api/orders/1"
+method: GET
+headers:
+  Accept: application/json
+order: 3000

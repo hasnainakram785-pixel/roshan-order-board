@@ -1,0 +1,7 @@
+$kind: http-request
+description: Expect 404 JSON.
+url: "{{baseUrl}}/api/orders/9999"
+method: GET
+headers:
+  Accept: application/json
+order: 4000

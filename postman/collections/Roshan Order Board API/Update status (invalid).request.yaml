@@ -1,0 +1,14 @@
+$kind: http-request
+description: Expect 422 with a validation error.
+url: "{{baseUrl}}/api/orders/1"
+method: PATCH
+headers:
+  Accept: application/json
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "banana"
+    }
+order: 6000

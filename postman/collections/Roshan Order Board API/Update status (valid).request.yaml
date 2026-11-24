@@ -1,0 +1,14 @@
+$kind: http-request
+description: Expect 200 and the updated order.
+url: "{{baseUrl}}/api/orders/1"
+method: PATCH
+headers:
+  Accept: application/json
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "approved"
+    }
+order: 5000

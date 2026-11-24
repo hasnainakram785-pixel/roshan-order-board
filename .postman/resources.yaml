@@ -1,0 +1,11 @@
+# Use this workspace to collaborate
+workspace:
+  id: 90fd593e-5d91-4a7c-87ac-80efc2f7aed5
+
+localResources:
+  collections:
+    - ../docs/OrderBoard.postman_collection.json
+
+cloudResources:
+  collections:
+    ../postman/collections/Roshan Order Board API: 222885ec-823c-4e36-a021-260b6d50b078
