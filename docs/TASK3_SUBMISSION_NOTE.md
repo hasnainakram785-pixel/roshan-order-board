@@ -1,8 +1,9 @@
 # Task 3 - Submission note
 
-**Public URLs (fill in before submitting)**
-- Live board (Netlify): https://YOUR-SITE.netlify.app
-- API (free PHP host):  https://YOUR-API-HOST/api/orders
+**Public URLs**
+- Live board (InfinityFree, same domain as the API): https://roshan-order-api.site.je/board/
+- Netlify copy: https://roshanorderboard.netlify.app
+- API (InfinityFree): https://roshan-order-api.site.je/index.php/api/orders
 
 **What I did**
 - Built the live board in plain HTML, CSS and JavaScript (`frontend/`, no build step).
@@ -21,3 +22,8 @@
 **How I tested**
 - Ran the API locally and the board against it; checked that the table refreshes every 10 seconds and that changing a status updates the row.
 - `node tests-js/app.test.js` checks the polling loop (10 s interval, no overlapping requests, keeps running after an error) and the helpers.
+
+**Deployment status**
+- The Laravel API runs on InfinityFree and returns the five sample orders as JSON.
+- The board served from the same InfinityFree domain (`/board/`) loads the data, refreshes every 10 seconds and lets staff change a status.
+- The Netlify copy of the board is deployed, but it currently shows "Offline" (the browser reports "Failed to fetch" when it calls the InfinityFree API from another website). The likely cause is InfinityFree's browser security check on free sites, which affects requests from other domains. I have not been able to change that on the free plan; moving the API to another free PHP host is the fix I would try next.

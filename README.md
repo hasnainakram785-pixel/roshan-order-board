@@ -179,7 +179,7 @@ A plain HTML/CSS/JS page (`frontend/`) that polls `GET /api/orders` **every 10 s
 | disbursed | teal |
 | rejected | red |
 
-**Live URLs:** board = `https://YOUR-SITE.netlify.app` , API = `https://YOUR-API-HOST/api/orders` *(replace with your real URLs)*
+**Live URLs:** board = `https://roshan-order-api.site.je/board/` , Netlify copy = `https://roshanorderboard.netlify.app` , API = `https://roshan-order-api.site.je/index.php/api/orders`
 
 ### Run it locally
 
