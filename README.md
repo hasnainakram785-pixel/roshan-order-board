@@ -1,9 +1,16 @@
 # Live Order Status Board - Roshan Microfinance
 
+## Public URLs
+
+- **Live board (working):** https://roshan-order-api.site.je/board/
+- **API (working):** https://roshan-order-api.site.je/index.php/api/orders
+- **Netlify copy:** https://roshanorderboard.netlify.app (deployed, currently shows "Offline")
+
+
 A real-time board for Roshan Microfinance staff to monitor loan application status.
 Built with **Laravel** (backend), **MySQL**, and a lightweight front-end, deployed on free hosting.
 
-> **Current stage: Task 1 - Database schema, migrations and seeders.**
+> **Current stage: Task 3 - live board and deployment (Tasks 1 and 2 complete).**
 > Task 2 (REST API) and Task 3 (live board front-end + deploy) build on this.
 
 ## Project plan
